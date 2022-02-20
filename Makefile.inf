@@ -1,0 +1,42 @@
+SECTION="NetPing modules"
+CATEGORY="Base"
+TITLE="EPIC OWRT-PLIB-zipp"
+
+PKG_NAME="OWRT-PLIB-zipp"
+PKG_VERSION=3.6.0
+PKG_RELEASE=1
+PKG_DEPENDS=
+
+MODULE_NAME=owrt_plib_zipp
+MODULE_FILES=zipp.py zipp-3.6.0.dist-info
+MODULE_FILES_DIR?=/usr/lib/python3.7/site-packages/
+
+INSTALL_DIR=
+
+CURRENT_VERSION=`pip3 show zipp | grep Version | sed 's/Version: //g'`
+
+all: configure build install
+
+configure:
+	@echo "Nothing to do"
+
+build:
+	@echo "Nothing to do"
+
+install:
+ifneq (`pip3 show zipp | grep Version | sed 's/Version: //g'`,$(PKG_VERSION))
+ifeq ($(origin INSTALL_DIR),command line)
+	mkdir -p $(INSTALL_DIR)${MODULE_FILES_DIR}
+else
+	mkdir -p $(INSTALL_DIR)${MODULE_FILES_DIR}
+endif
+	for f in $(MODULE_FILES); do cp -r $${f} $(INSTALL_DIR)$(MODULE_FILES_DIR); done
+endif
+
+clean:
+ifeq ($(origin INSTALL_DIR),command line)
+	rm -rf $(INSTALL_DIR)
+else
+	for f in $(MODULE_FILES); do rm -rf $(INSTALL_DIR)$(MODULE_FILES_DIR)$${f}; done
+	$(if $(strip $(INSTALL_DIR)),rm -r $(INSTALL_DIR),)
+endif
