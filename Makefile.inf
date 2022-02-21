@@ -13,9 +13,9 @@ MODULE_FILES_DIR?=/usr/lib/python3.7/site-packages/
 
 INSTALL_DIR=
 
-CURRENT_VERSION=`pip3 show zipp | grep Version | sed 's/Version: //g'`
-
 all: configure build install
+
+ipk: build install
 
 configure:
 	@echo "Nothing to do"
@@ -24,14 +24,14 @@ build:
 	@echo "Nothing to do"
 
 install:
-ifneq (`pip3 show zipp | grep Version | sed 's/Version: //g'`,$(PKG_VERSION))
+	for f in $(MODULE_FILES); do rm -rf $(INSTALL_DIR)$(MODULE_FILES_DIR)$${f}; done
+
 ifeq ($(origin INSTALL_DIR),command line)
 	mkdir -p $(INSTALL_DIR)${MODULE_FILES_DIR}
 else
 	mkdir -p $(INSTALL_DIR)${MODULE_FILES_DIR}
 endif
 	for f in $(MODULE_FILES); do cp -r $${f} $(INSTALL_DIR)$(MODULE_FILES_DIR); done
-endif
 
 clean:
 ifeq ($(origin INSTALL_DIR),command line)
