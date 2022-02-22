@@ -1,6 +1,6 @@
 SECTION="NetPing modules"
 CATEGORY="Base"
-TITLE="OWRT-PLIB-zipp
+TITLE="OWRT-PLIB-zipp"
 
 PKG_NAME="OWRT-PLIB-zipp"
 PKG_VERSION=3.7.0-1
